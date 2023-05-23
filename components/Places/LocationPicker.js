@@ -15,7 +15,7 @@ import { Colors } from "../../constants/colors";
 import OutlinedButton from "../ui/OutlinedButton";
 import { getMapPreview } from "../../utils/location";
 
-export default function LocationPicker() {
+export default function LocationPicker({ onPickLocation }) {
   const [pickedLocation, setPickedLocation] = useState();
 
   const navigation = useNavigation();
@@ -81,6 +81,10 @@ export default function LocationPicker() {
       setPickedLocation(mapPickedLocation);
     }
   }, [route, isFocused]);
+
+  useEffect(() => {
+    onPickLocation(pickedLocation);
+  }, [pickedLocation, onPickLocation]);
 
   return (
     <View>
