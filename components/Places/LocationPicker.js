@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View, Image } from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
-import { useNavigation } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
 
 import { Colors } from "../../constants/colors";
 import OutlinedButton from "../ui/OutlinedButton";
@@ -15,6 +19,9 @@ export default function LocationPicker() {
   const [pickedLocation, setPickedLocation] = useState();
 
   const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused(); //AddPlace화면으로 왔을 때 true
+
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
@@ -64,6 +71,16 @@ export default function LocationPicker() {
       />
     );
   }
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        lat: route.params.pickedLat,
+        lng: route.params.pickedLng,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [route, isFocused]);
 
   return (
     <View>
