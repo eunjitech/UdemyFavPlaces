@@ -5,6 +5,7 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
+import { useNavigation } from "@react-navigation/native";
 
 import { Colors } from "../../constants/colors";
 import OutlinedButton from "../ui/OutlinedButton";
@@ -12,6 +13,8 @@ import { getMapPreview } from "../../utils/location";
 
 export default function LocationPicker() {
   const [pickedLocation, setPickedLocation] = useState();
+
+  const navigation = useNavigation();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
@@ -46,7 +49,9 @@ export default function LocationPicker() {
       lng: location.coords.longitude,
     });
   }
-  function pickOnMapHandler() {}
+  function pickOnMapHandler() {
+    navigation.navigate("Map");
+  }
 
   let locationPreview = <Text>No location picked yet.</Text>;
   if (pickedLocation) {
