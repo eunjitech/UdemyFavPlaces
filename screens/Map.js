@@ -20,6 +20,10 @@ export default function Map({ navigation, route }) {
   };
 
   function selectLocationHandler(e) {
+    if (initialLocation) {
+      return;
+    }
+
     const lat = e.nativeEvent.coordinate.latitude;
     const lng = e.nativeEvent.coordinate.longitude;
 
